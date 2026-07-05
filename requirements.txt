@@ -5,5 +5,7 @@ pymongo
 certifi
 scikit-learn
 pyaml
+mlflow
+dagshub
 
 #-e .
