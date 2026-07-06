@@ -33,6 +33,7 @@ DATA_VALIDATION_DRIFT_REPORT_FILE_NAME:str = "report.yaml"
 DATA_TRANSFORMATION_DIR_NAME: str = "data_transformation"
 DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR: str = "transformed"
 DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR: str = "transformed_object"
+PREPROCESSING_OBJECT_FILE_NAME: str = "preprocessing.pkl"
 
 ## kkn imputer to replace nan values
 DATA_TRANSFORMATION_IMPUTER_PARAMS: dict = {

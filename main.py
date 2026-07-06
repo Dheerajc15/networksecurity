@@ -1,16 +1,23 @@
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
 from networksecurity.components.data_transformation import DataTransformation
+from networksecurity.components.model_trainer import ModelTrainer
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
-from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig
+from networksecurity.entity.config_entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig
 from networksecurity.entity.config_entity import TrainingPipelineConfig
 
-# from networksecurity.components.model_trainer import ModelTrainer
-# from networksecurity.entity.config_entity import ModelTrainerConfig
+from networksecurity.components.model_trainer import ModelTrainer
+from networksecurity.entity.config_entity import ModelTrainerConfig
  
 
 import sys
+
+# Windows consoles default to cp1252, which can't encode the emoji MLflow
+# prints (e.g. "🏃 View run ..."). Force UTF-8 so those writes don't crash.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 if __name__=='__main__':
     try:
@@ -34,13 +41,12 @@ if __name__=='__main__':
         print(data_transformation_artifact)
         logging.info("data Transformation completed")
 
-    #     logging.info("Model Training sstared")
-    #     model_trainer_config=ModelTrainerConfig(trainingpipelineconfig)
-    #     # model_trainer=ModelTrainer(model_trainer_config=model_trainer_config,data_transformation_artifact=data_transformation_artifact)
-    #     # model_trainer_artifact=model_trainer.initiate_model_trainer()
+        logging.info("Model Training sstared")
+        model_trainer_config=ModelTrainerConfig(trainingpipelineconfig)
+        model_trainer=ModelTrainer(model_trainer_config=model_trainer_config,data_transformation_artifact=data_transformation_artifact)
+        model_trainer_artifact=model_trainer.initiate_model_trainer()
 
-    #     logging.info("Model Training artifact created")
-        
+        logging.info("Model Training artifact created")
         
         
     except Exception as e:
