@@ -1,6 +1,12 @@
 import sys
 import os
 
+# Windows consoles default to cp1252, which can't encode the emoji MLflow
+# prints (e.g. "🏃 View run ..."). Force UTF-8 so those writes don't crash.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
 import certifi
 ca = certifi.where()
 
@@ -53,7 +59,7 @@ async def index():
 
 @app.get("/predict")
 async def predict_form(request: Request):
-    return templates.TemplateResponse("table.html", {"request": request, "table": None})
+    return templates.TemplateResponse(request, "table.html", {"table": None})
 
 @app.get("/train")
 async def train_route():
@@ -82,7 +88,7 @@ async def predict_route(request: Request,file: UploadFile = File(...)):
         df.to_csv('prediction_output/output.csv')
         table_html = df.to_html(classes='table table-striped')
         #print(table_html)
-        return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
+        return templates.TemplateResponse(request, "table.html", {"table": table_html})
         
     except Exception as e:
             raise NetworkSecurityException(e,sys)
